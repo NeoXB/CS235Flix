@@ -311,7 +311,7 @@ class Review:
 
     def __init__(self, movie: Movie, txt: str, rating: int):
         if type(movie) is not Movie:
-            self.__movie = Movie("", 0)
+            self.__movie = None
         else:
             self.__movie = movie
         if type(txt) is not str:
@@ -588,3 +588,7 @@ class MovieWatchingSimulation:
         for user in self.__watch_group:
             if self.__movie_to_watch not in user.watched_movies:
                 user.watch_movie(self.__movie_to_watch)
+
+
+class ModelException(Exception):
+    pass

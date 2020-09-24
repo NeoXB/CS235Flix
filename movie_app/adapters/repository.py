@@ -61,9 +61,9 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def get_movies_by_year(self, year: int) -> List[Movie]:
-        """ Returns a list of Movies that were published on year.
-        If there are no Movies on the given year, this method returns an empty list.
+    def get_movies_by_year(self, target_year: int) -> List[Movie]:
+        """ Returns a list of Movies that were published on target_year.
+        If there are no Movies on the given target_year, this method returns an empty list.
         """
         raise NotImplementedError
 
@@ -149,6 +149,8 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def get_watchlist(self):
-        """ Returns the WatchList stored in the repository. """
+    def get_watchlist(self, user: User) -> WatchList:
+        """ Returns the WatchList owned by username from the repository.
+        If username does not own any WatchList, this method returns None.
+        """
         raise NotImplementedError

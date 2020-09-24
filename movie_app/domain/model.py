@@ -131,11 +131,16 @@ class Movie:
             self.__release_year = None
         else:
             self.__release_year = year
+        self.__rank = None
         self.__description = ""
         self.__director = Director("")
         self.__actors = list()
         self.__genres = list()
         self.__runtime_minutes = 0
+        self.__rating = None
+        self.__votes = None
+        self.__revenue = None
+        self.__metascore = None
 
     @property
     def title(self) -> str:
@@ -144,6 +149,10 @@ class Movie:
     @property
     def release_year(self) -> int:
         return self.__release_year
+
+    @property
+    def rank(self) -> int:
+        return self.__rank
 
     @property
     def description(self) -> str:
@@ -165,12 +174,35 @@ class Movie:
     def runtime_minutes(self) -> int:
         return self.__runtime_minutes
 
+    @property
+    def rating(self) -> float:
+        return self.__rating
+
+    @property
+    def votes(self) -> int:
+        return self.__votes
+
+    @property
+    def revenue(self) -> float:
+        return self.__revenue
+
+    @property
+    def metascore(self) -> int:
+        return self.__metascore
+
     @title.setter
     def title(self, t):
         if t == "" or type(t) is not str:
             self.__title = None
         else:
             self.__title = t.strip()
+
+    @rank.setter
+    def rank(self, r):
+        if type(r) is not int:
+            self.__rank = None
+        else:
+            self.__rank = r
 
     @description.setter
     def description(self, d):
@@ -203,6 +235,40 @@ class Movie:
             raise ValueError("Only positive numbers can be assigned to runtime minutes")
         else:
             self.__runtime_minutes = rm
+
+    @rating.setter
+    def rating(self, r):
+        if type(r) is not float:
+            if type(r) is int:
+                self.__rating = float(r)
+            else:
+                self.__rating = None
+        else:
+            self.__rating = r
+
+    @votes.setter
+    def votes(self, v):
+        if type(v) is not int:
+            self.__votes = None
+        else:
+            self.__votes = v
+
+    @revenue.setter
+    def revenue(self, r):
+        if type(r) is not float:
+            if type(r) is int:
+                self.__revenue = float(r)
+            else:
+                self.__revenue = None
+        else:
+            self.__revenue = r
+
+    @metascore.setter
+    def metascore(self, m):
+        if type(m) is not int:
+            self.__metascore = None
+        else:
+            self.__metascore = m
 
     def __repr__(self):
         return f"<Movie {self.__title}, {self.__release_year}>"
@@ -273,6 +339,7 @@ class MovieFileCSVReader:
             i = 0
             for row in movie_file_reader:
                 # reading from csv
+                movie_rank = int(row['Rank'].strip())
                 title = row['Title']
                 genres = row['Genre'].split(",")
                 movie_description = row['Description'].strip()
@@ -280,6 +347,10 @@ class MovieFileCSVReader:
                 actors = row['Actors'].split(",")
                 year = int(row['Year'].strip())
                 runtime = int(row['Runtime (Minutes)'].strip())
+                movie_rating = row['Rating'].strip()
+                movie_votes = row['Votes'].strip()
+                movie_revenue = row['Revenue (Millions)'].strip()
+                movie_metascore = row['Metascore'].strip()
 
                 # assigning to respective objects
                 movie_director = Director(director)
@@ -294,11 +365,16 @@ class MovieFileCSVReader:
 
                 # assigning to respective datasets
                 self.__dataset_of_movies.append(Movie(title, year))
+                self.__dataset_of_movies[len(self.__dataset_of_movies)-1].rank = movie_rank
                 self.__dataset_of_movies[len(self.__dataset_of_movies)-1].genres = movie_genres
                 self.__dataset_of_movies[len(self.__dataset_of_movies)-1].description = movie_description
                 self.__dataset_of_movies[len(self.__dataset_of_movies)-1].director = movie_director
                 self.__dataset_of_movies[len(self.__dataset_of_movies)-1].actors = movie_actors
                 self.__dataset_of_movies[len(self.__dataset_of_movies)-1].runtime_minutes = runtime
+                self.__dataset_of_movies[len(self.__dataset_of_movies) - 1].rating = movie_rating
+                self.__dataset_of_movies[len(self.__dataset_of_movies) - 1].votes = movie_votes
+                self.__dataset_of_movies[len(self.__dataset_of_movies) - 1].revenue = movie_revenue
+                self.__dataset_of_movies[len(self.__dataset_of_movies) - 1].metascore = movie_metascore
                 for a in movie_actors:
                     self.__dataset_of_actors.add(a)
                 self.__dataset_of_directors.add(movie_director)

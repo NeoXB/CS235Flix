@@ -7,7 +7,6 @@ from movie_app.domain.model import Director, Genre, Actor, Movie, MovieFileCSVRe
 
 
 class MemoryRepository(AbstractRepository):
-    # Movies ordered by year, not rank. Rank is assumed unique.
 
     def __init__(self):
         self._directors = list()
@@ -61,7 +60,7 @@ class MemoryRepository(AbstractRepository):
                 else:
                     break
         except ValueError:
-            # No articles for specified date. Simply return an empty list.
+            # No movies for specified year. Return an empty list.
             pass
         return matching_movies
 
@@ -84,7 +83,7 @@ class MemoryRepository(AbstractRepository):
         # Strip out any ranks in rank_list that don't represent Movie ranks in the repository.
         existing_ranks = [rank for rank in rank_list if rank in self._movies_index]
 
-        # Fetch the Articles.
+        # Fetch the Movies.
         movies = [self._movies_index[rank] for rank in existing_ranks]
         return movies
 
@@ -96,7 +95,7 @@ class MemoryRepository(AbstractRepository):
         if genre is not None:
             movie_ranks = [movie.rank for movie in self._movies if genre in movie.genres]
         else:
-            # No Genre with name genre_name, so return an empty list.
+            # No Genre with name genre_name. Return an empty list.
             movie_ranks = list()
         return movie_ranks
 
@@ -109,8 +108,7 @@ class MemoryRepository(AbstractRepository):
                     previous_year = stored_movie.release_year
                     break
         except ValueError:
-            # No earlier movies, so return None.
-            pass
+            pass    # No earlier movies, so return None.
         return previous_year
 
     def get_year_of_next_movie(self, movie: Movie):
@@ -122,8 +120,7 @@ class MemoryRepository(AbstractRepository):
                     next_year = stored_movie.release_year
                     break
         except ValueError:
-            # No subsequent movies, so return None.
-            pass
+            pass    # No subsequent movies, so return None.
         return next_year
 
     def add_review(self, review: Review):
@@ -166,11 +163,11 @@ def load_data(data_path: str, repo: MemoryRepository):
     for genre in all_data.dataset_of_genres:
         repo.add_genre(genre)
 
-    # load actor into repository
+    # load actors into repository
     for actor in all_data.dataset_of_actors:
         repo.add_actor(actor)
 
-    # load movie into repository
+    # load movies into repository
     for movie in all_data.dataset_of_movies:
         repo.add_movie(movie)
 

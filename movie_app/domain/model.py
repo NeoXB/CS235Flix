@@ -494,7 +494,7 @@ class User:
 class WatchList:
 
     def __init__(self, user: User, watchlist_name: str):
-        if type(user) is not User:
+        if not isinstance(user, User):
             raise Exception("Sorry, that is an invalid User")
         else:
             self.__watchlist_owner = user

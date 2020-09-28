@@ -1,6 +1,5 @@
 import os
 from typing import List
-from bisect import bisect, bisect_left, insort_left
 from werkzeug.security import generate_password_hash
 from movie_app.adapters.repository import AbstractRepository, RepositoryException
 from movie_app.domain.model import Director, Genre, Actor, Movie, MovieFileCSVReader, Review, User, WatchList
@@ -38,7 +37,7 @@ class MemoryRepository(AbstractRepository):
         return next((actor for actor in self._actors if actor.actor_full_name == actor_name), None)
 
     def add_movie(self, movie: Movie):
-        insort_left(self._movies, movie)
+        self._movies.append(movie)
         self._movies_index[movie.rank] = movie
 
     def get_movie(self, rank: int) -> Movie:
@@ -48,21 +47,6 @@ class MemoryRepository(AbstractRepository):
         except KeyError:
             pass  # Ignore exception and return None.
         return movie
-
-    def get_movies_by_year(self, target_year: int) -> List[Movie]:
-        target_movie = Movie(title=None, year=target_year)
-        matching_movies = list()
-        try:
-            index = self.movie_index(target_movie)
-            for movie in self._movies[index:None]:
-                if movie.release_year == target_year:
-                    matching_movies.append(movie)
-                else:
-                    break
-        except ValueError:
-            # No movies for specified year. Return an empty list.
-            pass
-        return matching_movies
 
     def get_number_of_movies(self):
         return len(self._movies)
@@ -99,30 +83,6 @@ class MemoryRepository(AbstractRepository):
             movie_ranks = list()
         return movie_ranks
 
-    def get_year_of_previous_movie(self, movie: Movie):
-        previous_year = None
-        try:
-            index = self.movie_index(movie)
-            for stored_movie in reversed(self._movies[0:index]):
-                if stored_movie.release_year < movie.release_year:
-                    previous_year = stored_movie.release_year
-                    break
-        except ValueError:
-            pass    # No earlier movies, so return None.
-        return previous_year
-
-    def get_year_of_next_movie(self, movie: Movie):
-        next_year = None
-        try:
-            index = self.movie_index(movie)
-            for stored_movie in self._movies[index + 1:len(self._movies)]:
-                if stored_movie.release_year > movie.release_year:
-                    next_year = stored_movie.release_year
-                    break
-        except ValueError:
-            pass    # No subsequent movies, so return None.
-        return next_year
-
     def add_review(self, review: Review):
         super().add_review(review)
         self._reviews.append(review)
@@ -139,41 +99,37 @@ class MemoryRepository(AbstractRepository):
     def add_watchlist(self, watchlist: WatchList):
         self._all_watchlist.append(watchlist)
 
-    def get_watchlist(self, user: User) -> WatchList:
-        return next(
-            (watchlist for watchlist in self._all_watchlist if watchlist.watchlist_owner == user), None)
-
-    # Helper method to return movie index.
-    def movie_index(self, movie: Movie):
-        index = bisect_left(self._movies, movie)
-        if index != len(self._movies) and self._movies[index].release_year == movie.release_year:
-            return index
-        raise ValueError
+    def get_watchlist(self, user: User) -> List[WatchList]:
+        all_watchlist = []
+        for watchlist in self._all_watchlist:
+            if watchlist.watchlist_owner == user:
+                all_watchlist.append(watchlist)
+        return all_watchlist
 
 
 def load_data(data_path: str, repo: MemoryRepository):
     all_data = MovieFileCSVReader(os.path.join(data_path, 'Data1000Movies.csv'))
     all_data.read_csv_file()
 
-    # load directors into repository
+    # load directors into repository.
     for director in all_data.dataset_of_directors:
         repo.add_director(director)
 
-    # load genres into repository
+    # load genres into repository.
     for genre in all_data.dataset_of_genres:
         repo.add_genre(genre)
 
-    # load actors into repository
+    # load actors into repository.
     for actor in all_data.dataset_of_actors:
         repo.add_actor(actor)
 
-    # load movies into repository
+    # load movies into repository.
     for movie in all_data.dataset_of_movies:
         repo.add_movie(movie)
 
 
 def load_review_and_user(repo: MemoryRepository):
-    # load default review for default user into repository, then load default user into repository
+    # load default review for default user into repository, then load default user into repository.
     review = Review(
         movie=repo.get_movie(1),
         txt='GOTG is my new favourite movie of all time!',
@@ -185,9 +141,22 @@ def load_review_and_user(repo: MemoryRepository):
     repo.add_user(user)
 
 
+def load_watchlist(repo: MemoryRepository):
+    # load default watchlist for default user.
+    movies = repo.get_movies_by_rank([1, 2, 3, 4, 5])
+    user = repo.get_user('nton939')
+    watchlist = WatchList(user=user, watchlist_name='Watch Later')
+    for movie in movies:
+        watchlist.add_movie(movie)
+    repo.add_watchlist(watchlist)
+
+
 def populate(data_path: str, repo: MemoryRepository):
     # Load directors, genres, actors and movies into the repository.
     load_data(data_path, repo)
 
     # Load default review and user into the repository.
     load_review_and_user(repo)
+
+    # Load default watchlist into the repository.
+    load_watchlist(repo)

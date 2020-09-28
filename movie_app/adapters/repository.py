@@ -61,13 +61,6 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def get_movies_by_year(self, target_year: int) -> List[Movie]:
-        """ Returns a list of Movies that were published on target_year.
-        If there are no Movies on the given target_year, this method returns an empty list.
-        """
-        raise NotImplementedError
-
-    @abc.abstractmethod
     def get_number_of_movies(self):
         """ Returns the number of Movies in the repository. """
         raise NotImplementedError
@@ -98,22 +91,6 @@ class AbstractRepository(abc.ABC):
         """ Returns a list of ranks representing Movies that are categorised by genre_name.
         If there are no Movies that are categorised by genre_name,
         this method returns an empty list.
-        """
-        raise NotImplementedError
-
-    @abc.abstractmethod
-    def get_year_of_previous_movie(self, movie: Movie):
-        """ Returns the year of a Movie that immediately precedes movie.
-        If movie is the first Movie in the repository,
-        this method returns None because there are no Movies on a previous year.
-        """
-        raise NotImplementedError
-
-    @abc.abstractmethod
-    def get_year_of_next_movie(self, movie: Movie):
-        """ Returns the year of a Movie that immediately follows movie.
-        If movie is the last Movie in the repository,
-        this method returns None because there are no Movies on a later year.
         """
         raise NotImplementedError
 
@@ -149,8 +126,8 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def get_watchlist(self, user: User) -> WatchList:
-        """ Returns the WatchList owned by username from the repository.
-        If username does not own any WatchList, this method returns None.
+    def get_watchlist(self, user: User) -> List[WatchList]:
+        """ Returns the WatchList owned by User from the repository.
+        If the User does not own any watchlist, this method returns an empty list.
         """
         raise NotImplementedError

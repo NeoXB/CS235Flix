@@ -135,9 +135,9 @@ def test_repo_can_retrieve_reviews(in_memory_repo):
 
 
 def test_repo_can_add_user(in_memory_repo):
-    user = User('CoolGuy123', '123456789')
+    user = User('person', '123456789')
     in_memory_repo.add_user(user)
-    assert in_memory_repo.get_user('CoolGuy123') == user
+    assert in_memory_repo.get_user('person') == user
 
 
 def test_repo_can_retrieve_user(in_memory_repo):
@@ -157,11 +157,12 @@ def test_repo_can_add_watchlist(in_memory_repo):
     for movie in movies:
         watchlist.add_movie(movie)
     in_memory_repo.add_watchlist(watchlist)
-    assert len(in_memory_repo.get_watchlist('nton939')) == 2
+    assert len(in_memory_repo.get_watchlist(user)) == 2
 
 
 def test_repo_can_retrieve_watchlist(in_memory_repo):
-    watchlist = in_memory_repo.get_watchlist('nton939')
+    user = in_memory_repo.get_user('nton939')
+    watchlist = in_memory_repo.get_watchlist(user)
     assert len(watchlist) == 1
 
 

@@ -114,7 +114,7 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def get_user(self, username) -> User:
+    def get_user(self, username: str) -> User:
         """ Returns the User named username from the repository.
         If there is no User with the given username, this method returns None.
         """

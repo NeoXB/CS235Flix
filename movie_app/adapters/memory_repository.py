@@ -93,7 +93,7 @@ class MemoryRepository(AbstractRepository):
     def add_user(self, user: User):
         self._users.append(user)
 
-    def get_user(self, username) -> User:
+    def get_user(self, username: str) -> User:
         return next((user for user in self._users if user.user_name == username), None)
 
     def add_watchlist(self, watchlist: WatchList):
@@ -144,8 +144,7 @@ def load_review_and_user(repo: MemoryRepository):
 def load_watchlist(repo: MemoryRepository):
     # load default watchlist for default user.
     movies = repo.get_movies_by_rank([1, 2, 3, 4, 5])
-    user = repo.get_user('nton939')
-    watchlist = WatchList(user=user, watchlist_name='Watch Later')
+    watchlist = WatchList(user=repo.get_user('nton939'), watchlist_name='Watch Later')
     for movie in movies:
         watchlist.add_movie(movie)
     repo.add_watchlist(watchlist)

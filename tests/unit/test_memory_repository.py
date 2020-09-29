@@ -51,7 +51,7 @@ def test_repo_can_add_movie(in_memory_repo):
     movie = Movie('New Movie', 2020)
     movie.rank = 1001
     in_memory_repo.add_movie(movie)
-    assert in_memory_repo.get_movie(1001) is movie
+    assert in_memory_repo.get_movie(1001) == movie
 
 
 def test_repo_can_retrieve_movie(in_memory_repo):
@@ -167,5 +167,6 @@ def test_repo_can_retrieve_watchlist(in_memory_repo):
 
 
 def test_repo_does_not_retrieve_non_existent_watchlist(in_memory_repo):
-    watchlist = in_memory_repo.get_watchlist('abc')
+    user = in_memory_repo.get_user('abc')
+    watchlist = in_memory_repo.get_watchlist(user)
     assert len(watchlist) == 0

@@ -19,3 +19,4 @@ Werkzeug==0.16.0
 better-profanity==0.6.1
 password-validator==1.0
 flask-wtf==0.14.2
+WTForms~=2.3.3

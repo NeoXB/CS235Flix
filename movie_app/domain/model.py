@@ -341,16 +341,18 @@ class MovieFileCSVReader:
                 # reading from csv
                 movie_rank = int(row['Rank'].strip())
                 title = row['Title']
-                genres = row['Genre'].split(",")
+                genres = row['Genre'].split(',')
                 movie_description = row['Description'].strip()
                 director = row['Director'].strip()
-                actors = row['Actors'].split(",")
+                actors = row['Actors'].split(',')
                 year = int(row['Year'].strip())
                 runtime = int(row['Runtime (Minutes)'].strip())
-                movie_rating = row['Rating'].strip()
-                movie_votes = row['Votes'].strip()
-                movie_revenue = row['Revenue (Millions)'].strip()
-                movie_metascore = row['Metascore'].strip()
+                movie_rating = float(row['Rating'].strip()) if row['Rating'].strip() != 'N/A' else row['Rating'].strip()
+                movie_votes = int(row['Votes'].strip()) if row['Votes'].strip() != 'N/A' else row['Votes'].strip()
+                movie_revenue = float(row['Revenue (Millions)'].strip()) \
+                    if row['Revenue (Millions)'].strip() != 'N/A' else row['Revenue (Millions)'].strip()
+                movie_metascore = int(row['Metascore'].strip()) \
+                    if row['Metascore'].strip() != 'N/A' else row['Metascore'].strip()
 
                 # assigning to respective objects
                 movie_director = Director(director)

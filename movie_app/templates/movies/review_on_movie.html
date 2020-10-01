@@ -1,0 +1,52 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<main id="main">
+    <header>
+        <h1>{{date}}</h1>
+    </header>
+
+    <div style="clear:both">
+        <a href="{{movie.hyperlink}}" target="_blank">
+            <img src={{movie.image_hyperlink}} alt="movie image">
+        </a>
+        <h2>{{movie.title}}</h2>
+        <p>{{movie.release_year}}</p>
+        <p>{{movie.description}}</p>
+        <p>{{movie.director.director_name}}</p>
+        <p>{{movie.runtime_minutes}}</p>
+        <p>{{movie.rating}}</p>
+        <p>{{movie.votes}}</p>
+        <p>{{movie.revenue}}</p>
+        <p>{{movie.metascore}}</p>
+        <div style="float:left">
+            {% for genre in movie.genres %}
+            <button class="btn-general-disabled" disable>{{ genre.genre_name }}</button>
+            {% endfor %}
+        </div>
+        <div class="form-wrapper">
+            <form action="{{handler_url}}" method="post">
+                {{form.movie_rank}} <!-- Need to include this hidden field as it tracks the movie being reviewed. -->
+                {{form.csrf_token}} <!-- Need to include this token - Flask WTForms requires it. -->
+                <br>
+                <div class ="form-field">{{form.review.label}} <br>{{form.review(size = 100, placeholder="type your review", class="textarea", cols="50", rows="6", wrap="hard")}}
+                    {% if form.review.errors %}
+                        <ul class="errors">
+        	            {% for error in form.review.errors %}
+        		            <li>{{error}}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                {{ form.submit }}
+            </form>
+        </div>
+        <div style="clear:both">
+            {% for review in movie.reviews %}
+                <p>{{review.review_text}}, rating: {{review.rating}}, {{review.timestamp}}</p>
+            {% endfor %}
+        </div>
+    </div>
+</main>
+{% endblock %}

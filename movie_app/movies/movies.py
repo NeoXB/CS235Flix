@@ -210,8 +210,8 @@ class ProfanityFree:
             raise ValidationError(self.message)
 
 
-class CommentForm(FlaskForm):
-    comment = TextAreaField('Review', [
+class ReviewForm(FlaskForm):
+    review = TextAreaField('Review', [
         DataRequired(),
         Length(min=2, message='Please write a longer review'),
         ProfanityFree(message='Profanity is not allowed in reviews')])

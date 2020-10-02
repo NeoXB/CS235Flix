@@ -50,7 +50,7 @@ def movies_by_rank():
         prev_movie_url = url_for('movies_bp.movies_by_rank', rank=movie_rank, cursor=cursor - movies_per_page)
         first_movie_url = url_for('movies_bp.movies_by_rank', rank=movie_rank)
 
-    if cursor + movies_per_page < len(movie_rank):
+    if cursor + movies_per_page < len(movie_ranks):
         # There are further movies, so generate URLs for the 'next' and 'last' navigation buttons.
         next_movie_url = url_for('movies_bp.movies_by_rank', rank=movie_rank, cursor=cursor + movies_per_page)
         last_cursor = movies_per_page * int(len(movie_ranks) / movies_per_page)

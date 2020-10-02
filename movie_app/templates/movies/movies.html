@@ -36,9 +36,6 @@
 
     {% for movie in movies %}
     <article id="movie">
-        <a href="{{movie.hyperlink}}" target="_blank">
-            <img src={{movie.image_hyperlink}} alt="movie image">
-        </a>
         <h2>{{movie.title}}</h2>
         <p>{{movie.release_year}}</p>
         <p>{{movie.description}}</p>

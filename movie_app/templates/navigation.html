@@ -2,8 +2,8 @@
   <img id="logo" src="{{ url_for('static', filename='movie-logo.png') }}" />
 
   <h2 id="nav-header">
-    {% if 'username' in session %} Hello, {{ session['username'] }} {%
-    endif %}
+    {% if 'username' in session %} Hello, {{ session['username'] }}
+    {% endif %}
   </h2>
   <a class="btn-nav" href="{{ url_for('home_bp.home') }}">Home</a>
   <a class="btn-nav" href="{{ url_for('authentication_bp.register') }}">Register</a>

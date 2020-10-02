@@ -39,32 +39,37 @@
         <h2>{{movie.title}}</h2>
         <p>{{movie.release_year}}</p>
         <p>{{movie.description}}</p>
-        <p>{{movie.director.director_name}}</p>
-        <p>{{movie.runtime_minutes}}</p>
-        <p>{{movie.rating}}</p>
-        <p>{{movie.votes}}</p>
-        <p>{{movie.revenue}}</p>
-        <p>{{movie.metascore}}</p>
-        <div style="float:left">
-            {% for genre in movie.genres %}
-            <button class="btn-general" onclick="location.href='{{ genre_urls[genre.genre_name] }}'">{{ genre.genre_name }}</button>
-            {% endfor %}
-        </div>
+        <br>
+        <p>Director: {{movie.director.director_name}}</p>
+        <p>Runtime: {{movie.runtime_minutes}} minutes</p>
+        <p>Rating: {{movie.rating}}</p>
+        <p>Votes: {{movie.votes}}</p>
+        <p>Revenue: ${{movie.revenue}} million</p>
+        <p>Metascore: {{movie.metascore}}</p>
+        <br>
+        <h3>Actors and Actresses</h3>
         <div>
             {% for actor in movie.actors %}
             <p>{{actor.actor_name}}</p>
             {% endfor %}
         </div>
+        <br>
+         <div style="float:left">
+            {% for genre in movie.genres %}
+            <button class="btn-general" onclick="location.href='{{ genre_urls[genre.genre_name] }}'">{{ genre.genre_name }}</button>
+            {% endfor %}
+        </div>
         <div style="float:right">
-            {% if movie.reviews|length > 0 and movie.rank != show_reviews_for_movie %}
-                <button class="btn-general" onclick="location.href='{{ movie.view_review_url }}'">{{ movie.reviews|length }} reviews</button>
+            {% if movie.reviews|length > 0 %}
+                <button class="btn-general" onclick="location.href='{{ movie.view_review_url }}'">{{ movie.reviews|length }} Reviews</button>
             {% endif %}
             <button class="btn-general" onclick="location.href='{{ movie.add_review_url }}'">Review</button>
         </div>
+        <br>
         {% if movie.rank == show_reviews_for_movie %}
         <div style="clear:both">
             {% for review in movie.reviews %}
-                <p>{{review.review_text}}, rating: {{review.rating}}, {{review.timestamp}}</p>
+                <p>{{review.review_text}}, I rate this movie {{review.rating}}/10. Reviewed on {{review.timestamp}}</p>
             {% endfor %}
         </div>
         {% endif %}

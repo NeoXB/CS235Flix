@@ -2,7 +2,7 @@ from flask import Blueprint
 from flask import request, render_template, redirect, url_for, session
 from better_profanity import profanity
 from flask_wtf import FlaskForm
-from wtforms import TextAreaField, HiddenField, SubmitField
+from wtforms import TextAreaField, HiddenField, SubmitField, IntegerField
 from wtforms.validators import DataRequired, Length, ValidationError
 from movie_app.authentication.authentication import login_required
 import movie_app.adapters.repository as repo
@@ -18,7 +18,6 @@ def movies_by_rank():
     movies_per_page = 3
 
     # Read query parameters.
-    movie_rank = request.args.get('rank')
     cursor = request.args.get('cursor')
     movie_to_show_reviews = request.args.get('view_reviews_for')
 
@@ -47,22 +46,22 @@ def movies_by_rank():
 
     if cursor > 0:
         # There are preceding movies, so generate URLs for the 'previous' and 'first' navigation buttons.
-        prev_movie_url = url_for('movies_bp.movies_by_rank', rank=movie_rank, cursor=cursor - movies_per_page)
-        first_movie_url = url_for('movies_bp.movies_by_rank', rank=movie_rank)
+        prev_movie_url = url_for('movies_bp.movies_by_rank', cursor=cursor - movies_per_page)
+        first_movie_url = url_for('movies_bp.movies_by_rank')
 
     if cursor + movies_per_page < len(movie_ranks):
         # There are further movies, so generate URLs for the 'next' and 'last' navigation buttons.
-        next_movie_url = url_for('movies_bp.movies_by_rank', rank=movie_rank, cursor=cursor + movies_per_page)
+        next_movie_url = url_for('movies_bp.movies_by_rank', cursor=cursor + movies_per_page)
         last_cursor = movies_per_page * int(len(movie_ranks) / movies_per_page)
         if len(movie_ranks) % movies_per_page == 0:
             last_cursor -= movies_per_page
-        last_movie_url = url_for('movies_bp.movies_by_rank', rank=movie_rank, cursor=last_cursor)
+        last_movie_url = url_for('movies_bp.movies_by_rank', cursor=last_cursor)
 
     # Construct urls for viewing movie reviews and adding reviews.
     for movie in movies:
-        movie['view_review_url'] = url_for('movies_bp.movies_by_rank', rank=movie_rank, cursor=cursor,
-                                           view_reviews_for=movie['rank'])
+        movie['view_review_url'] = url_for('movies_bp.movies_by_rank', cursor=cursor, view_reviews_for=movie['rank'])
         movie['add_review_url'] = url_for('movies_bp.review_on_movie', movie=movie['rank'])
+        movie['reviews'] = services.get_reviews_for_movie(movie['rank'], repo.repo_instance)
 
     # Generate the webpage to display the movies.
     return render_template(
@@ -130,6 +129,7 @@ def movies_by_genre():
         movie['view_review_url'] = url_for('movies_bp.movies_by_genre', genre=genre_name, cursor=cursor,
                                            view_reviews_for=movie['rank'])
         movie['add_review_url'] = url_for('movies_bp.review_on_movie', movie=movie['rank'])
+        movie['reviews'] = services.get_reviews_for_movie(movie['rank'], repo.repo_instance)
 
     # Generate the webpage to display the movies.
     return render_template(
@@ -150,13 +150,15 @@ def movies_by_genre():
 @movies_blueprint.route('/review', methods=['GET', 'POST'])
 @login_required
 def review_on_movie():
+    genre_name = request.args.get('genre')
+
     # Obtain the username of the currently logged in user.
     username = session['username']
 
     # Create form. The form maintains state, e.g. when this method is called with a HTTP GET request and populates
     # the form with a movie rank, when subsequently called with a HTTP POST request, the movie rank remains in the
     # form.
-    form = CommentForm()
+    form = ReviewForm()
 
     if form.validate_on_submit():
         # Successful POST, i.e. the review text has passed data validation.
@@ -169,9 +171,8 @@ def review_on_movie():
         # Retrieve the movie in dict form.
         movie = services.get_movie(movie_rank, repo.repo_instance)
 
-        # Cause the web browser to display the page of all movies that have the same genre as the reviewed movie,
-        # and display all reviews, including the new review.
-        return redirect(url_for('movies_bp.movies_by_genre', genre=movie['genres'], view_reviews_for=movie_rank))
+        return redirect(url_for('movies_bp.movies_by_genre',
+                                genre=movie['genres'][0]['genre_name'], view_reviews_for=movie_rank))
 
     if request.method == 'GET':
         # Request is a HTTP GET to display the form.
@@ -215,5 +216,7 @@ class ReviewForm(FlaskForm):
         DataRequired(),
         Length(min=2, message='Please write a longer review'),
         ProfanityFree(message='Profanity is not allowed in reviews')])
+    rating = IntegerField('Rating', [
+        DataRequired()])
     movie_rank = HiddenField("Movie rank")
     submit = SubmitField('Submit')

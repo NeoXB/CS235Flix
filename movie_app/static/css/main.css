@@ -4,52 +4,40 @@
   margin: 0;
   padding: 0;
   color: black;
-  box-sizing: border-box;
-  list-style: none;
-  text-decoration: none;
   font-family: 'Arial', sans-serif;
 }
 
 body,
 html {
   height: 100%;
+  position: relative;
+  background: rgb(0, 128, 128);
 }
 
 h1 {
-    text-align: center;
-    font-weight: bold;
+  text-align: center;
+  font-weight: bold;
 }
 
-img {
-  display: block;
-  width: 500px;
-  height: auto;
-  padding: 15px;
-  margin-left: auto;
-  margin-right: auto;
+h2 {
+  font-size: 30px;
+  padding: 10px 0px;
 }
 
-.img-small {
-    display: block;
-    width: 300px;
-    height: auto;
-    padding: 5px;
-    margin-left: auto;
-    margin-right:auto;
+h3 {
+  padding-bottom: 10px;
+  font-size: 20px;
 }
 
 .btn-nav {
   padding: 10px;
-  border-bottom: 1px solid #bdb8d7;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  color: #bdb8d7;
   display: block;
+  text-align: center;
 }
 
 .btn-nav:hover {
-  background-color: #594f8d;
-  color: #fff;
+  background: navy;
+  color: white;
 }
 
 .btn-general {
@@ -75,8 +63,9 @@ img {
 }
 
 .btn-general:hover {
-    background-color: #8acd32;
+    background-color: rgb(0, 191, 255);
     color: black;
+    font-weight: bold;
 }
 
 .textarea {
@@ -86,86 +75,68 @@ img {
 }
 
 #body {
-  min-height: 100%;
-  margin-bottom: -60px;
   font-size: medium;
 }
 
 #header {
-  padding: 20px;
-  background: #fff;
-  border-bottom: 1px solid #e0e4e8;
+  color: rgb(64, 224, 208);
+  background: black;
+  border-bottom: 1px solid black;
   font-size: 64px;
   font-weight: bold;
-  text-align: center;
-}
-
-#content-2 {
-  height: 100vh;
-  margin-left: 200px;
+  align-items: center;
   display: flex;
-  flex-direction: column;
 }
 
 #container {
-  display: flex;
-  flex-direction: row;
+  padding-left: 230px;
+  position: absolute;
+  padding-right: 20px;
+  width: 80%;
+}
+
+#navigation {
+  position: absolute;
+  z-index: 10;
+  height: 150%;
 }
 
 #nav {
   width: 200px;
-  height: 100%;
-  background: #00ffff;
+  height: 200%;
+  background: rgb(64, 224, 208);
   padding: 30px 0px;
-  position: fixed;
 }
 
 #nav-header {
-  color: #fff;
+  color: black;
   text-align: center;
   margin-bottom: 30px;
   margin-top: 12px;
 }
 
 #sub-nav-header {
-  color: #fff;
-  text-align: left;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  padding-left: 10px;
-}
-
-#nav-footer {
-  color: #fff;
-  margin-top: 25px;
-  margin-bottom: 20px;
-  position: absolute;
-  bottom: 0;
-  font-size: small;
+  color: rgb(255, 69, 0);
+  background: black;
   text-align: center;
-  word-wrap: break-word;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding-top: 10px;
+  border: 1px solid black;
+  border-radius: 50px;
 }
 
 #main {
-  margin: 20px;
-  color: #717171;
   line-height: 25px;
-  padding: 10px;
-  width: 66.666667%;
+  padding: 20px;
+  filter: invert(100%);
+  font-weight: bold;
 }
 
 #logo {
   width: 150px;
-}
-
-#sidebar {
-    background-color: #8acd32;
-    color: #717171;
-    width: 33.333333%;
-    min-height: 100vh;
-    height: 100%;
-    padding: 20px;
-    border-bottom: 1px solid #e0e4e8;
+  filter: invert(100%);
+  padding: 10px 50px 10px 10px;
 }
 
 #movie-header {
@@ -179,17 +150,6 @@ img {
     margin-bottom:100px;
 }
 
-#movie-footer {
-    font-size: 32px;
-}
-
-#movie-container {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    margin-top: 30px;
-}
-
 input[type='text'],
     select {
         width: 100%;
@@ -197,7 +157,7 @@ input[type='text'],
         margin: 8px 0;
         display: inline-block;
         border: 1px solid #ccc;
-        border-radius: 4px;
+        border-radius: 3px;
         box-sizing: border-box;
     }
 
@@ -208,24 +168,25 @@ input[type='password'],
         margin: 8px 0;
         display: inline-block;
         border: 1px solid #ccc;
-        border-radius: 4px;
+        border-radius: 3px;
         box-sizing: border-box;
     }
 
 input[type='submit'] {
     width: 100%;
-     background-color: #7532cd;
-     color: white;
-     padding: 14px 20px;
-     margin: 8px 0;
-     border: none;
-     border-radius: 4px;
-     cursor: pointer;
+    background-color: #7532cd;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
 }
 
 input[type='submit']:hover {
-    background-color: #8acd32;
+    background-color: rgb(0, 191, 255);
     color: black;
+    font-weight: bold;
 }
 
 .icon {

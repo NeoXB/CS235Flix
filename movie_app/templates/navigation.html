@@ -1,6 +1,4 @@
 <nav id="nav">
-  <img id="logo" src="{{ url_for('static', filename='movie-logo.png') }}" />
-
   <h2 id="nav-header">
     {% if 'username' in session %} Hello, {{ session['username'] }}
     {% endif %}
@@ -23,9 +21,5 @@
     {% for key in genre_urls %}
       <a class="btn-nav" href="{{ genre_urls[key] }}">{{ key }}</a>
     {% endfor %}
-  </div>
-
-  <div id="nav-footer">
-    COMPSCI 235 Software Development Methodologies
   </div>
 </nav>

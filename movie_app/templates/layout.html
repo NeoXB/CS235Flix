@@ -10,7 +10,7 @@
       href="{{ url_for('static', filename='css/main.css') }}"
     />
 
-	<link
+    <link
       rel="bookmark"
 	  type="image/x-icon"
       href="movie-icon.ico"
@@ -26,21 +26,17 @@
 
   <body>
     <div id="body">
-      <!-- Include navigation partial. -->
-      {% include 'navigation.html' %}
+      <!-- Include header partial. -->
+      {% include 'header.html' %}
 
-      <div id="content-2">
-        <!-- Include header partial. -->
-        {% include 'header.html' %}
+      <div id="navigation">
+        <!-- Include navigation partial. -->
+        {% include 'navigation.html' %}
+      </div>
 
-        <div id="container">
-          <!-- Main content block to be supplied by page. -->
-          {% block content %} {% endblock %}
-
-          <!-- Include sidebar partial. -->
-          {% include 'sidebar.html' %}
-        </div>
-
+      <div id="container">
+        <!-- Main content block to be supplied by page. -->
+        {% block content %} {% endblock %}
       </div>
     </div>
   </body>

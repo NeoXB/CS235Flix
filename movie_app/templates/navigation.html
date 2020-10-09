@@ -1,6 +1,6 @@
 <nav id="nav">
   <h2 id="nav-header">
-    {% if 'username' in session %} Hello, {{ session['username'] }}
+    {% if 'username' in session %} Welcome back, {{ session['username'] }}
     {% endif %}
   </h2>
   <a class="btn-nav" href="{{ url_for('home_bp.home') }}">Home</a>

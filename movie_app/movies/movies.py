@@ -69,7 +69,7 @@ def movies_by_rank():
         title='Movies',
         movies_title='Ranked Movies',
         movies=movies,
-        featured_movies=utilities.get_featured_movies(len(movies) * 2),
+        featured_movies=utilities.get_featured_movies(3),
         genre_urls=utilities.get_genres_and_urls(),
         first_movie_url=first_movie_url,
         last_movie_url=last_movie_url,
@@ -137,7 +137,57 @@ def movies_by_genre():
         title='Movies',
         movies_title='Movies with genre ' + genre_name,
         movies=movies,
-        featured_movies=utilities.get_featured_movies(len(movies) * 2),
+        featured_movies=utilities.get_featured_movies(3),
+        genre_urls=utilities.get_genres_and_urls(),
+        first_movie_url=first_movie_url,
+        last_movie_url=last_movie_url,
+        prev_movie_url=prev_movie_url,
+        next_movie_url=next_movie_url,
+        show_reviews_for_movie=movie_to_show_reviews
+    )
+
+
+@movies_blueprint.route('/movie_after_review', methods=['GET'])
+def movie_after_review():
+    # Read query parameters.
+    movie_to_show_reviews = request.args.get('view_reviews_for')
+    movie_rank = request.args.get('movie_rank')
+
+    if movie_to_show_reviews is None:
+        # No view-reviews query parameter, so set to a non-existent movie rank.
+        movie_to_show_reviews = 0
+    else:
+        # Convert movie_to_show_reviews from string to int.
+        movie_to_show_reviews = int(movie_to_show_reviews)
+
+    if movie_rank is None:
+        # No movie_rank query parameter, so set to a non-existent movie rank.
+        movie_rank = 0
+    else:
+        # Convert movie_rank from string to int.
+        movie_rank = int(movie_rank)
+
+    # Retrieve the movie to display on the web page.
+    movie = services.get_movie(movie_rank, repo.repo_instance)
+
+    # Construct urls for viewing movie reviews and adding reviews.
+    movie['view_review_url'] = url_for('movies_bp.movie_after_review', view_reviews_for=movie['rank'],
+                                       movie_rank=movie['rank'])
+    movie['add_review_url'] = url_for('movies_bp.review_on_movie', movie=movie['rank'])
+    movie['reviews'] = services.get_reviews_for_movie(movie['rank'], repo.repo_instance)
+    movies = [movie]
+    first_movie_url = None
+    last_movie_url = None
+    next_movie_url = None
+    prev_movie_url = None
+
+    # Generate the webpage to display the movie.
+    return render_template(
+        'movies/movies.html',
+        title='Movies',
+        movies_title='Thank you for reviewing!',
+        movies=movies,
+        featured_movies=utilities.get_featured_movies(3),
         genre_urls=utilities.get_genres_and_urls(),
         first_movie_url=first_movie_url,
         last_movie_url=last_movie_url,
@@ -171,8 +221,7 @@ def review_on_movie():
         # Retrieve the movie in dict form.
         movie = services.get_movie(movie_rank, repo.repo_instance)
 
-        return redirect(url_for('movies_bp.movies_by_genre',
-                                genre=movie['genres'][0]['genre_name'], view_reviews_for=movie_rank))
+        return redirect(url_for('movies_bp.movie_after_review', view_reviews_for=movie_rank, movie_rank=movie_rank))
 
     if request.method == 'GET':
         # Request is a HTTP GET to display the form.

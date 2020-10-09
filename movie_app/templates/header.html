@@ -1,4 +1,9 @@
 <header id="header">
   <img id="logo" src="{{ url_for('static', filename='movie-logo.png') }}" />
   Welcome to CS235Flix
+
+  <div id="editor">
+    <!-- Include sidebar partial. -->
+    {% include 'sidebar.html' %}
+  </div>
 </header>

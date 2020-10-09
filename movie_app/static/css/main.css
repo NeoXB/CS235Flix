@@ -5,6 +5,8 @@
   padding: 0;
   color: black;
   font-family: 'Arial', sans-serif;
+  list-style: none;
+  text-decoration: none;
 }
 
 body,
@@ -41,37 +43,38 @@ h3 {
 }
 
 .btn-general {
-    background-color: #7532cd;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    display: inline-block;
-    padding: 10px;
-    margin: 5px;
-    float:left;
+  background-color: purple;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  display: inline-block;
+  padding: 10px;
+  margin: 5px;
+  float: left;
 }
 
 .btn-general-disabled {
-    background-color: #4b4276;
-    border: none;
-    border-radius: 8px;
-    display: inline-block;
-    padding: 10px;
-    margin: 5px;
-    float:left;
-    #opacity: 0.6;
+  background-color: #4b4276;
+  border: none;
+  border-radius: 8px;
+  display: inline-block;
+  padding: 10px;
+  margin: 5px;
+  float: left;
+  #opacity: 0.6;
 }
 
 .btn-general:hover {
-    background-color: rgb(0, 191, 255);
-    color: black;
-    font-weight: bold;
+  background-color: rgb(0, 191, 255);
+  color: black;
+  font-weight: bold;
 }
 
 .textarea {
-    width: 100%;
-    overflow: auto;
-    word-break: break-all;
+  width: 100%;
+  overflow: auto;
+  word-break: break-all;
+  padding: 10px;
 }
 
 #body {
@@ -86,6 +89,7 @@ h3 {
   font-weight: bold;
   align-items: center;
   display: flex;
+  justify-content: space-between !important;
 }
 
 #container {
@@ -112,7 +116,6 @@ h3 {
   color: black;
   text-align: center;
   margin-bottom: 30px;
-  margin-top: 12px;
 }
 
 #sub-nav-header {
@@ -120,8 +123,10 @@ h3 {
   background: black;
   text-align: center;
   margin-top: 30px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   padding-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
   border: 1px solid black;
   border-radius: 50px;
 }
@@ -140,14 +145,14 @@ h3 {
 }
 
 #movie-header {
-    text-align: left;
-    margin-top: 20px;
-    margin-bottom: 20px;
+  text-align: left;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 #movie {
-    clear:both;
-    margin-bottom:100px;
+  clear:both;
+  margin-bottom:100px;
 }
 
 input[type='text'],
@@ -173,26 +178,45 @@ input[type='password'],
     }
 
 input[type='submit'] {
-    width: 100%;
-    background-color: #7532cd;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
+  width: 100%;
+  background-color: purple;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
 }
 
 input[type='submit']:hover {
-    background-color: rgb(0, 191, 255);
-    color: black;
-    font-weight: bold;
+  background-color: rgb(0, 191, 255);
+  color: black;
+  font-weight: bold;
 }
 
 .icon {
-    width: 1.5em;
-    height: 1.5em;
-    vertical-align: -0.5em;
-    fill: currentColor;
-    overflow: hidden;
+  width: 1.5em;
+  height: 1.5em;
+  vertical-align: -0.5em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+#editor {
+  background: rgb(0, 250, 154);
+  padding: 20px;
+  margin: 10px;
+  text-align: center;
+  font-size: 20px;
+  border-radius: 10px;
+}
+
+#movie-container{
+  padding: 20px 10px 0px 10px;
+}
+
+#sidebar-title {
+  padding: 10px;
+  border: 2px solid black;
+  border-radius: 50px;
 }

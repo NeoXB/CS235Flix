@@ -200,8 +200,6 @@ def movie_after_review():
 @movies_blueprint.route('/review', methods=['GET', 'POST'])
 @login_required
 def review_on_movie():
-    genre_name = request.args.get('genre')
-
     # Obtain the username of the currently logged in user.
     username = session['username']
 

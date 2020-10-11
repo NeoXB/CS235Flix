@@ -227,3 +227,11 @@ li {
   font-weight: bold;
   font-size: 20px;
 }
+
+#like-btn:hover, #like-btn:active, #like-btn:focus {
+  filter: invert(100%);
+}
+
+#dislike-btn:hover, #dislike-btn:active, #dislike-btn:focus {
+  filter: invert(100%);
+}

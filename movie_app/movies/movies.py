@@ -3,7 +3,7 @@ from flask import request, render_template, redirect, url_for, session
 from better_profanity import profanity
 from flask_wtf import FlaskForm
 from wtforms import TextAreaField, HiddenField, SubmitField, IntegerField
-from wtforms.validators import DataRequired, Length, ValidationError
+from wtforms.validators import DataRequired, Length, ValidationError, NumberRange
 from movie_app.authentication.authentication import login_required
 import movie_app.adapters.repository as repo
 import movie_app.utilities.utilities as utilities
@@ -264,6 +264,7 @@ class ReviewForm(FlaskForm):
         Length(min=2, message='Please write a longer review'),
         ProfanityFree(message='Profanity is not allowed in reviews')])
     rating = IntegerField('Rating', [
-        DataRequired()])
+        DataRequired(),
+        NumberRange(min=1, max=10, message='Please enter a number between 1 and 10')])
     movie_rank = HiddenField("Movie rank")
     submit = SubmitField('Submit')

@@ -70,6 +70,8 @@
         <div style="clear:both">
             {% for review in movie.reviews %}
                 <p>{{review.review_text}}, I rate this movie {{review.rating}}/10. Reviewed on {{review.timestamp}}</p>
+                <button id="like-btn">👍</button>
+                <button id="dislike-btn">👎</button>
             {% endfor %}
         </div>
         {% endif %}

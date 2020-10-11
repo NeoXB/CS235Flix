@@ -1,5 +1,5 @@
 from movie_app.domain.model \
-    import Director, Genre, Actor, Movie, MovieFileCSVReader, Review, User, WatchList, MovieWatchingSimulation
+    import Director, Genre, Actor, Movie, Review, User, WatchList, MovieWatchingSimulation
 
 import pytest
 
@@ -118,17 +118,6 @@ def test_hash():
 def test_repr():
     m1 = Movie("wow", 0)
     assert(repr(m1) == "<Movie wow, None>")
-
-
-# MovieFileCSVReader Unit Tests
-def test_csv():
-    filename = '../data/Data1000Movies.csv'
-    movie_file_reader = MovieFileCSVReader(filename)
-    movie_file_reader.read_csv_file()
-    assert (len(movie_file_reader.dataset_of_movies) == 1000)
-    assert (len(movie_file_reader.dataset_of_actors) == 1985)
-    assert (len(movie_file_reader.dataset_of_directors) == 644)
-    assert (len(movie_file_reader.dataset_of_genres) == 20)
 
 
 # Review Unit Tests
@@ -286,15 +275,6 @@ def test_sort_by_runtime(w):
 def test_change_watchlist_name(w):
     w.change_watchlist_name("WOW")
     assert w.watchlist_name == "WOW"
-
-
-def test_get_recommendations(w):
-    m1 = Movie("Action", 2000)
-    m1.genres = [Genre("Crime"), Genre("Drama"), Genre("Horror")]
-    w.add_movie(m1)
-    w1 = w.get_recommendations("../data/Data1000Movies.csv")
-    movies = [Movie("Hounds of Love", 2016), Movie("Funny Games", 2007), Movie("The Girl Next Door", 2007)]
-    assert w1.watchlist == movies
 
 
 # MovieWatchingSimulation Unit Tests

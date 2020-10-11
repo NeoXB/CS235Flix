@@ -60,11 +60,11 @@ Testing requires that file *CS235Flix/tests/conftest.py* be edited to set the va
 
 E.g. 
 
-`TEST_DATA_PATH = os.path.join('C:', os.sep, 'Users', 'neoxb', 'Documents', 'CS235Flix', 'tests', 'data')`
+`TEST_DATA_PATH = os.path.join('C:', os.sep, 'Users', 'neoxb', 'Documents', 'CompsciPart2', 'Compsci235', 'A2', 'CS235Flix', 'tests', 'data')`
 
 assigns TEST_DATA_PATH with the following value (the use of os.path.join and os.sep ensures use of the correct platform path separator):
 
-`C:\Users\neoxb\Documents\CS235Flix\tests\data`
+`C:\Users\neoxb\Documents\CompsciPart2\Compsci235\A2\CS235Flix\tests\data`
 
 You can then run tests from within PyCharm.
 

@@ -112,7 +112,7 @@ class PasswordValid:
 class RegistrationForm(FlaskForm):
     username = StringField('Username', [
         DataRequired(message='Please enter your username'),
-        Length(min=1, message='Your username is too short')])
+        Length(min=3, message='Your username is too short')])
     password = PasswordField('Password', [
         DataRequired(message='Please enter your password'),
         PasswordValid()])

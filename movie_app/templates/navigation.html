@@ -3,7 +3,7 @@
     {% if 'username' in session %} Welcome back, {{ session['username'] }}
     {% endif %}
   </h2>
-  <a class="btn-nav" href="{{ url_for('home_bp.home') }}">Home</a>
+  <a class="btn-nav" id="home-btn" href="{{ url_for('home_bp.home') }}">Home</a>
   <a class="btn-nav" href="{{ url_for('authentication_bp.register') }}">Register</a>
   <a class="btn-nav" href="{{ url_for('authentication_bp.login') }}">Login</a>
   <a class="btn-nav" href="{{ url_for('authentication_bp.logout') }}">Logout</a>

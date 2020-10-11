@@ -113,9 +113,9 @@ h3 {
 }
 
 #nav-header {
-  color: black;
+  color: navy;
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 #sub-nav-header {
@@ -133,7 +133,7 @@ h3 {
 
 #main {
   line-height: 25px;
-  padding: 20px;
+  padding: 30px;
   filter: invert(100%);
   font-weight: bold;
   font-size: large;
@@ -220,4 +220,10 @@ input[type='submit']:hover {
   padding: 10px;
   border: 2px solid black;
   border-radius: 50px;
+}
+
+li {
+  color: blue;
+  font-weight: bold;
+  font-size: 20px;
 }

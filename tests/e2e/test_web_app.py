@@ -80,7 +80,7 @@ def test_review(client, auth):
         '/review',
         data={'review': 'wow!', 'rating': 10, 'movie_rank': 1}
     )
-    assert response.headers['Location'] == 'http://localhost/movies_by_genre?genre=Action&view_reviews_for=1'
+    assert response.headers['Location'] == 'http://localhost/movie_after_review?view_reviews_for=1&movie_rank=1'
 
 
 @pytest.mark.parametrize(('review', 'rating', 'messages'), (
@@ -112,11 +112,11 @@ def test_movies_with_review(client):
 
 def test_movies_with_genre(client):
     # Check that we can retrieve the movies page.
-    response = client.get('/movies_by_genre?genre=Sport')
+    response = client.get('/movies_by_genre?genre=Action')
     assert response.status_code == 200
 
     # Check that all movies with 'Sport' genre are included on the page.
-    assert b'Movies with genre Sport' in response.data
-    assert b'Warrior' in response.data
-    assert b'The Blind Side' in response.data
-    assert b'Tracktown' in response.data
+    assert b'Movies with genre Action' in response.data
+    assert b'Guardians of the Galaxy' in response.data
+    assert b'Suicide Squad' in response.data
+    assert b'The Great Wall' in response.data
